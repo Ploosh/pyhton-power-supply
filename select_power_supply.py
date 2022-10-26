@@ -4,7 +4,7 @@ import pyvisa as visa
 
 root = tk.Tk()
 root.title('Tektronix PWS4721 GUI')
-rm = visa.ResourceManager()
+rm = visa.ResourceManager('/usr/lib64/libvisa.so')
 
 window_height = 300
 window_width = 400
@@ -41,7 +41,7 @@ def select_power_supply(*args):
 
 
 def list_resources():
-    return rm.list_resources('?*')
+    return rm.list_resources()
 
 
 frame1 = ttk.LabelFrame(
@@ -49,7 +49,8 @@ frame1 = ttk.LabelFrame(
     width=350, height=250)
 frame1.place(x=25, y=20)
 combobox_power_supply = ttk.Combobox(root, state='readonly', values=[
-    'teste', list_resources()], width=40)  # type: ignore
+    'teste', str(list_resources())], width=40)
+print(rm.list_resources())
 combobox_power_supply.current(0)
 combobox_power_supply.place(x=45, y=50)
 button = ttk.Button(root, text='Button',
